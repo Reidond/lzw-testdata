@@ -10,7 +10,7 @@ make build
 
 Using pipes
 ```bash
-cat <<EOF | bin/testdata
+cat <<EOF | bin/testdata -
 {"some":"test","data":1}
 EOF
 ```
