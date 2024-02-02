@@ -1,4 +1,4 @@
-# charidy_testdata
+# lzw-testdata
 
 ## Build
 
@@ -10,12 +10,12 @@ make build
 
 Using pipes
 ```bash
-cat <<EOF | bin/testdata -
+cat <<EOF | bin/lzw-testdata -
 {"some":"test","data":1}
 EOF
 ```
 
 Using file param
 ```bash
-bin/testdata -f some-data.json
+bin/lzw-testdata -f some-data.json
 ```

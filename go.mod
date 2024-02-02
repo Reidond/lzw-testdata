@@ -1,4 +1,4 @@
-module gitlab.com/charidy/testdata
+module gitlab.com/charidy/lzw-testdata
 
 go 1.21.5
 

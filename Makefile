@@ -3,7 +3,7 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
-BINARY_NAME=testdata
+BINARY_NAME=lzw-testdata
 BINARY_DIR=bin
 CMD_DIR=cmd
 

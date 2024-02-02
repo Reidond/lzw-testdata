@@ -65,5 +65,5 @@ $GOPATH/pkg/mod/cache/download
 /go/pkg/mod
 
 # Exclude the binary produced by compiling the project.
-/testdata
+/lzw-testdata
 /bin

@@ -14,13 +14,16 @@ import (
 
 // on frontend use https://www.npmjs.com/package/lz-string
 
-func main() {
-	err := clipboard.Init()
-	if err != nil {
-		panic(err)
-	}
+type args struct {
+	filePath string
+	testdata string
+}
 
-	stat, _ := os.Stdin.Stat()
+func parseFlags() (args, error) {
+	stat, err := os.Stdin.Stat()
+	if err != nil {
+		return args{}, err
+	}
 	filePath := flag.String("f", "", "file path to read from")
 	flag.Parse()
 
@@ -34,23 +37,40 @@ func main() {
 		}
 
 		if err := scanner.Err(); err != nil {
-			log.Fatal(err)
+			return args{}, err
 		}
 
 		testdata = string(buf)
 	} else if *filePath != "" {
 		content, err := os.ReadFile(*filePath)
 		if err != nil {
-			log.Fatal(fmt.Errorf("error reading file: %v", err))
+			return args{}, fmt.Errorf("error reading file: %v", err)
 		}
 
 		testdata = string(content)
 	} else {
-		log.Fatal("no data to compress")
+		return args{}, fmt.Errorf("no data to compress")
+	}
+
+	return args{
+		filePath: *filePath,
+		testdata: testdata,
+	}, nil
+}
+
+func main() {
+	err := clipboard.Init()
+	if err != nil {
+		panic(err)
+	}
+
+	arguments, err := parseFlags()
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	keyStrUriSafe := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$"
-	encodedData := lzstring.Compress(testdata, keyStrUriSafe)
+	encodedData := lzstring.Compress(arguments.testdata, keyStrUriSafe)
 
 	decodedData, err := lzstring.Decompress(encodedData, keyStrUriSafe)
 	if err != nil {
